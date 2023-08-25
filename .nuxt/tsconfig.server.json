@@ -1,0 +1,61 @@
+{
+  "compilerOptions": {
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "jsx": "preserve",
+    "jsxFactory": "h",
+    "jsxFragmentFactory": "Fragment",
+    "paths": {
+      "#imports": [
+        "D:/chatApp/chatapp/.nuxt/types/nitro-imports"
+      ],
+      "#paths": [
+        "D:/chatApp/chatapp/node_modules/nuxt/dist/core/runtime/nitro/paths"
+      ],
+      "~": [
+        "D:/chatApp/chatapp"
+      ],
+      "~/*": [
+        "D:/chatApp/chatapp/*"
+      ],
+      "@": [
+        "D:/chatApp/chatapp"
+      ],
+      "@/*": [
+        "D:/chatApp/chatapp/*"
+      ],
+      "~~": [
+        "D:/chatApp/chatapp"
+      ],
+      "~~/*": [
+        "D:/chatApp/chatapp/*"
+      ],
+      "@@": [
+        "D:/chatApp/chatapp"
+      ],
+      "@@/*": [
+        "D:/chatApp/chatapp/*"
+      ],
+      "assets": [
+        "D:/chatApp/chatapp/assets"
+      ],
+      "public": [
+        "D:/chatApp/chatapp/public"
+      ],
+      "public/*": [
+        "D:/chatApp/chatapp/public/*"
+      ]
+    }
+  },
+  "include": [
+    "D:/chatApp/chatapp/.nuxt/types/nitro-nuxt.d.ts",
+    "./types/nitro.d.ts",
+    "../**/*",
+    "../server/**/*"
+  ]
+}
