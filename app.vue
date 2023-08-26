@@ -12,16 +12,18 @@
 </template>
 <script setup>
  const { $io } = useNuxtApp();
- const users = ref([])
- const selectedUser = ref('')
+ let users = ref([])
+ let selectedUser = ref('')
  const message = ref('')
  const setSelectedUser = user => {
-  selectedUser.value = user
+  selectedUser = user
+  console.log(selectedUser)
  }
  const loggedUser = ref('')
 
 onMounted(() => {
-   users.value = ['hamza', 'usama', 'ali']
+   users = ['hamza', 'usama', 'ali']
+   console.log(users)
    loggedUser.value = localStorage.getItem('userName')
    console.log(localStorage.getItem('userName'))
 

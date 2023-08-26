@@ -591,7 +591,7 @@ io.on("connect", (socket) => {
   socket.broadcast.emit("message", `${socket.id} joined`);
   socket.on("message", function message(data) {
     console.log("message received: %s", data);
-    socket.broadcast.emit("message", { data });
+    sockets.emit("message", { data });
   });
   socket.on("disconnecting", () => {
     console.log("disconnected", socket.id);
