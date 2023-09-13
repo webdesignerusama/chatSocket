@@ -16,12 +16,11 @@ io.on('connect', (socket) => {
   socket.on('newuser', name=>{
     console.log(name)
     users[socket.id] = name
-    socket.broadcast.emit('userjoin', name)
+    socket.emit('userjoin', {name, id: socket.id})
   })
   
   socket.on("message", (message)=>{
-    console.log(message)
-    socket.broadcast.emit('recieve', {message: message, name:users[socket.id]})
+    socket.broadcast.emit('receive', message)
    })
    
   
