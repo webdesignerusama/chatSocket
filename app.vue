@@ -13,7 +13,7 @@
     <h4>You are chating with {{ destUser }}</h4>
     <div class="">
       <div class="chatbox">
-        <h4 v-for="(item,i) in arrItem" :key="i" :class="item.position">{{ item.name+": "+item.message }}</h4>
+        <h4 v-for="(item,i) in arrItem" :key="i" :class="item">{{ item.name+": "+item.message }}</h4>
       </div>
     </div>
      <div class="mt-4 ">
@@ -38,7 +38,8 @@ const users = ref(['hamza', 'ali', 'usama', 'ahmed', 'akbar'])
 
 
 const login = () => {
-  localStorage.setItem('name', loggedUser.value)
+  // localStorage.setItem('name', loggedUser.value)
+     $io.emit('join', loggedUser.value)
 }
 
 const setSelectedUser = (user) => {
@@ -46,47 +47,59 @@ destUser.value = user
 }
 
 onMounted(() => {
-  loggedUser.value = localStorage.getItem('name')
-  $io.emit("newuser", loggedUser.value);
-   $io.on('receive', (data)=>{
-    if (data.destUser === loggedUser.value) {
+  // loggedUser.value = localStorage.getItem('name')
+  // $io.emit("newuser", loggedUser.value);
+  //  $io.on('receive', (data)=>{
+  //   if (data.destUser === loggedUser.value) {
     
-        data.position = 'leftmessage'
-        data.chatRoom =  data.name + loggedUser.value
-        saveChat(data)
+  //       data.position = 'leftmessage'
+  //       data.chatRoom =  loggedUser.value + data.name
+  //        saveChat(data)
       
-    }
-  })
+  //   }
+  // })
+  $io.on('message', (data) => {
+    console.log("working...")
+  arrItem.value.push(data)
+  
+})
+  
+ 
 })
 let sendMessage = () => {
-  if (!destUser.value) {
-    alert('no user selected for chat')
-    return
-  }
-  const msg = {
-    name: loggedUser.value,
-    message:message.value,
-    position:'rightmessage',
-    destUser:destUser.value,
-    chatRoom: loggedUser.value + destUser.value
-  }
-  $io.emit("message",msg)
-  saveChat(msg)
+
+  arrItem.value.push({name:loggedUser.value,message:message.value})
+  $io.emit('private_message', {name:destUser.value,message:message.value});
+
+  // if (!destUser.value) {
+  //   alert('no user selected for chat')
+  //   return
+  // }
+  // const msg = {
+  //   name: loggedUser.value,
+  //   message:message.value,
+  //   position:'rightmessage',
+  //   destUser:destUser.value,
+  //   chatRoom: loggedUser.value + destUser.value
+  // }
+  // $io.emit("message",msg)
+  // saveChat(msg)
+ 
 };
 
-const saveChat = (chat) => {
-  console.log(chat.chatRoom)
-  const chatroom = chat.name + chat.destUser
-  if (localStorage.getItem(chatroom)) {
-    const prevChat = JSON.parse(localStorage.getItem(chatroom))
-    prevChat.push(chat)
-    localStorage.setItem(chatroom, JSON.stringify(prevChat))
-    arrItem.value = prevChat
-  } else {
-    arrItem.value = [chat]
-    localStorage.setItem(chatroom, JSON.stringify([chat]))
-  }
-}
+// const saveChat = (chat) => {
+//   console.log(chat.chatRoom)
+//   let chatroom = chat.name + chat.destUser
+//   if (localStorage.getItem(chatroom)) {
+//     const prevChat = JSON.parse(localStorage.getItem(chatroom))
+//     prevChat.push(chat)
+//     localStorage.setItem(chatroom, JSON.stringify(prevChat))
+//     arrItem.value = prevChat
+//   } else {
+//     arrItem.value = [chat]
+//     localStorage.setItem(chatroom, JSON.stringify([chat]))
+//   }
+// }
 </script>
 <style scoped>
    .chatbox{

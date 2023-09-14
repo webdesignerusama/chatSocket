@@ -583,16 +583,13 @@ const io = new Server(3001, {
     origin: "*"
   }
 });
-const users = {};
 io.on("connect", (socket) => {
-  console.log("Connection", socket.id);
-  socket.on("newuser", (name) => {
-    console.log(name);
-    users[socket.id] = name;
-    socket.emit("userjoin", { name, id: socket.id });
+  socket.on("join", (name) => {
+    console.log(`User ${name} joined`);
   });
-  socket.on("message", (message) => {
-    socket.broadcast.emit("receive", message);
+  socket.on("private_message", (data) => {
+    console.log(data);
+    io.to(data.name).emit("message", data);
   });
   socket.on("disconnecting", () => {
     console.log("disconnected", socket.id);
