@@ -583,15 +583,23 @@ const io = new Server(3001, {
     origin: "*"
   }
 });
+let users = [];
 io.on("connect", (socket) => {
+  console.log(socket.id);
   socket.on("join", (name) => {
-    console.log(`User ${name} joined`);
+    users.push({ name, id: socket.id });
+    console.log(socket.id);
+    socket.join(name);
+    io.emit("users_connected", users);
   });
   socket.on("private_message", (data) => {
-    console.log(data);
     io.to(data.name).emit("message", data);
+    console.log(data);
   });
   socket.on("disconnecting", () => {
+    const newArr = users.filter((x) => x.id !== socket.id);
+    users = newArr;
+    io.emit("users_connected", users);
     console.log("disconnected", socket.id);
   });
 });

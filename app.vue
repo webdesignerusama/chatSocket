@@ -5,7 +5,7 @@
         <v-text-field v-model="loggedUser"></v-text-field>
         <v-btn @click="login">Login</v-btn>
         <ul>
-          <li v-for="user in users" @click="setSelectedUser(user)" :key="user"> {{ user }} </li>
+          <li v-for="user in users.filter((x) => x.name !== loggedUser)" @click="setSelectedUser(user.name)" :key="user"> {{ user.name }} </li>
         </ul>
       </v-col>
       <v-col cols="6">
@@ -34,7 +34,7 @@ let message= ref('')
 let arrItem=ref([])
 let loggedUser = ref('')
 const destUser = ref('')
-const users = ref(['hamza', 'ali', 'usama', 'ahmed', 'akbar'])
+const users = ref([])
 
 
 const login = () => {
@@ -58,8 +58,11 @@ onMounted(() => {
       
   //   }
   // })
+  $io.on('users_connected', (data) => {
+    users.value = data
+  })
   $io.on('message', (data) => {
-    console.log("working...")
+    console.log("working...", data.name, loggedUser.value)
   arrItem.value.push(data)
   
 })
